@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "240095705769",
+    "firebase_url": "https://bustop-bc098.firebaseio.com",
+    "project_id": "bustop-bc098",
+    "storage_bucket": "bustop-bc098.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240095705769:android:47f5799387d98ed7c247b8",
+        "android_client_info": {
+          "package_name": "org.soonytown.bustop_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "240095705769-b51npj65q9ml4cpr8g0p0vet8o9anbv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0d_SZFHvUOpKxP_UDFxdtva7Xb2RkrPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240095705769-b51npj65q9ml4cpr8g0p0vet8o9anbv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
