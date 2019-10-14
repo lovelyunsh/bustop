@@ -1,11 +1,9 @@
 package org.soonytown.bustop_user;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,20 +14,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_login);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.signUpButton).setOnClickListener(onClickListener);
-        findViewById(R.id.gotoLogin).setOnClickListener(onClickListener);
+        findViewById(R.id.loginButton).setOnClickListener(onClickListener);
     }
 
     @Override
@@ -44,13 +41,9 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.signUpButton:
+                case R.id.loginButton:
                     //Log.e("클릭", "클릭");
                     signUp();
-                    break;
-
-                case R.id.gotoLogin:
-                    startLoginActivity();
                     break;
             }
         }
@@ -61,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         String password = ((EditText)findViewById(R.id.passwordEditText)).getText().toString();
         String passwordCheck = ((EditText)findViewById(R.id.passwordEditText)).getText().toString();
 
-        if(email.length() > 0 && password.length() > 0 && passwordCheck.length() > 0) {
+        if(email.length() > 0 && password.length() > 0) {
             if(password.equals(passwordCheck)) {
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -88,10 +81,5 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-    private void startLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 }
