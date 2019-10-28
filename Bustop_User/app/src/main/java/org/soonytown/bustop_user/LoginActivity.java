@@ -1,5 +1,6 @@
 package org.soonytown.bustop_user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -52,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
     private void signUp() {
         String email = ((EditText)findViewById(R.id.emailEditText)).getText().toString();
         String password = ((EditText)findViewById(R.id.passwordEditText)).getText().toString();
-        String passwordCheck = ((EditText)findViewById(R.id.passwordEditText)).getText().toString();
 
         if(email.length() > 0 && password.length() > 0) {
             mAuth.signInWithEmailAndPassword(email, password)
@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 startToast("로그에 성공하였습니다.");
+                                startMainActivity();
                             } else {
                                 if(task.getException() != null) {
                                     startToast(task.getException().toString());
@@ -78,5 +79,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

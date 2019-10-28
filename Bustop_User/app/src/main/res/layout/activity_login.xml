@@ -42,16 +42,6 @@
             android:hint="비밀번호"
             android:inputType="textPassword" />
 
-        <EditText
-            android:id="@+id/passwordCheckEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:ems="10"
-            android:hint="비밀번호(확인)"
-            android:inputType="textPassword"
-            android:paddingBottom="5dp" />
-
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
