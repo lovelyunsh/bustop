@@ -8,35 +8,32 @@
     android:weightSum="1"
     tools:context=".MainActivity">
 
-    <!--    <Button-->
-    <!--        android:id="@+id/logoutButton"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="로그아웃" />-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.5">
 
         <ImageButton
-            android:id="@+id/imageBus90"
+            android:id="@+id/Btn_search"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:padding="20dp"
             android:adjustViewBounds="true"
-            android:padding="0dp"
+            android:background="#FFFFFF"
             android:scaleType="centerInside"
-            android:src="@drawable/school_bus" />
+            android:src="@drawable/bus_stop" />
 
         <ImageButton
-            android:id="@+id/imageBus91"
+            android:id="@+id/Btn_reserve"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="0dp"
+            android:background="#FFFFFF"
+            android:padding="20dp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:src="@drawable/school_bus" />
+            android:src="@drawable/reserved" />
 
     </LinearLayout>
 
@@ -46,24 +43,27 @@
         android:layout_weight="0.5">
 
         <ImageButton
-            android:id="@+id/imageBus92"
+            android:id="@+id/Btn_alarm"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:padding="0dp"
+            android:background="#FFFFFF"
+            android:onClick="onclick_alarm"
+            android:padding="20dp"
             android:scaleType="centerInside"
-            android:src="@drawable/school_bus" />
+            android:src="@drawable/alarm" />
 
         <ImageButton
-            android:id="@+id/imageBus93"
+            android:id="@+id/Btn_settings"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#FFFFFF"
             android:adjustViewBounds="true"
-            android:padding="0dp"
+            android:padding="20dp"
             android:scaleType="centerInside"
-            android:src="@drawable/school_bus" />
+            android:src="@drawable/settings" />
 
     </LinearLayout>
 
