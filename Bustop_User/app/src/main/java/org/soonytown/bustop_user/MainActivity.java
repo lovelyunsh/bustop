@@ -21,22 +21,27 @@ public class MainActivity extends AppCompatActivity {
             startSignUpActivity();
         }
 
-//        findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
+        findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
     }
 
-//    View.OnClickListener onClickListener = new View.OnClickListener() {
-//        public void onClick(View v) {
-//            switch (v.getId()) {
-//                case R.id.loginButton:
-//                    FirebaseAuth.getInstance().signOut();
-//                    startSignUpActivity();
-//                    break;
-//            }
-//        }
-//    };
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.logoutButton:
+                    FirebaseAuth.getInstance().signOut();
+                    startSignUpActivity();
+                    break;
+            }
+        }
+    };
 
     private void startSignUpActivity() {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
+
+    @Override public void onBackPressed() {
+        super.onBackPressed();
+    }
+
 }
