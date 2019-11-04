@@ -55,7 +55,8 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                startToast("로그에 성공하였습니다.");
+                                startToast("로그인에 성공하였습니다.");
+                                myStartActivity(MainActivity.class);
                                 finish();
                             } else {
                                 if(task.getException() != null) {

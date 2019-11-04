@@ -3,10 +3,14 @@ package org.soonytown.bustop_user;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -16,9 +20,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         // 로그인 됐는지 여부 확인 -> 안되있으면 로그인 화면으로 넘어감
-        if(FirebaseAuth.getInstance().getCurrentUser() == null) {
-            startSignUpActivity();
+        if(user == null) {
+            myStartActivity(SignUpActivity.class);
+        } else {
+            // 회원가입 or 로그인
+            for (UserInfo profile : user.getProviderData()) {
+                String name = profile.getDisplayName();
+                Log.e("이름: ", "이름: " + name);
+                if(name == null) {
+                    if(name.length() == 0) {
+                        myStartActivity(MemberInitActivity.class);
+                    }
+                }
+            }
         }
 
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
@@ -29,19 +46,21 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.logoutButton:
                     FirebaseAuth.getInstance().signOut();
-                    startSignUpActivity();
+                    myStartActivity(SignUpActivity.class);
                     break;
             }
         }
     };
 
-    private void startSignUpActivity() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
-    }
-
     @Override public void onBackPressed() {
         super.onBackPressed();
+    }
+
+
+    private void myStartActivity(Class c) {
+        Intent intent = new Intent(this, c);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
 }
