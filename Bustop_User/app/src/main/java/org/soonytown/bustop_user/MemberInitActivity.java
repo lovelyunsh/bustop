@@ -61,6 +61,7 @@ public class MemberInitActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     startToast("회원정보 등록에 성공하였습니다.");
+                                    finish();
                                 }
                             }
                         });
