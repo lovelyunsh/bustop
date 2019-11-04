@@ -31,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 String name = profile.getDisplayName();
                 Log.e("이름: ", "이름: " + name);
                 if(name == null) {
-                    if(name.length() == 0) {
-                        myStartActivity(MemberInitActivity.class);
-                    }
+                    myStartActivity(MemberInitActivity.class);
                 }
             }
         }

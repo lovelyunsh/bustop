@@ -43,15 +43,13 @@ public class MemberInitActivity extends AppCompatActivity {
     };
 
     private void profileUpdate() {
-        String email = ((EditText)findViewById(R.id.emailEditText)).getText().toString();
-        String password = ((EditText)findViewById(R.id.passwordEditText)).getText().toString();
+        String name = ((EditText)findViewById(R.id.nameEditText)).getText().toString();
 
-        if(email.length() > 0 && password.length() > 0) {
+        if(name.length() > 0) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName("Jane Q. User")
-                    .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
+                    .setDisplayName(name)
                     .build();
 
             if(user != null ) {
