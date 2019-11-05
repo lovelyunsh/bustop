@@ -25,14 +25,7 @@ public class MainActivity extends AppCompatActivity {
         if(user == null) {
             myStartActivity(SignUpActivity.class);
         } else {
-            // 회원가입 or 로그인
-            for (UserInfo profile : user.getProviderData()) {
-                String name = profile.getDisplayName();
-                Log.e("이름: ", "이름: " + name);
-                if(name == null) {
-                    myStartActivity(MemberInitActivity.class);
-                }
-            }
+            myStartActivity(MemberInitActivity.class);
         }
 
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
@@ -321,5 +314,4 @@ public class MainActivity extends AppCompatActivity {
 //        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 //                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 //    }
-//
 //}

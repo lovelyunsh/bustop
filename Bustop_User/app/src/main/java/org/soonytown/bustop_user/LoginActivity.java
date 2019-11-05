@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         findViewById(R.id.loginButton).setOnClickListener(onClickListener);
-        findViewById(R.id.gotoPasswordResetButton).setOnClickListener(onClickListener);
+//        findViewById(R.id.gotoPasswordResetButton).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -37,9 +37,9 @@ public class LoginActivity extends AppCompatActivity {
                     //Log.e("클릭", "클릭");
                     login();
                     break;
-                case R.id.gotoPasswordResetButton:
-                    myStartActivity(PasswordResetActivity.class);
-                    break;
+//                case R.id.gotoPasswordResetButton:
+//                    myStartActivity(PasswordResetActivity.class);
+//                    break;
             }
         }
     };

@@ -29,6 +29,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.google.firebase:firebase-auth:19.0.0'
     implementation 'com.google.firebase:firebase-database:19.1.0'
+    implementation 'com.google.firebase:firebase-firestore:21.1.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
