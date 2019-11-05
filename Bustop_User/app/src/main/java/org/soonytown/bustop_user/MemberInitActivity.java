@@ -38,6 +38,11 @@ public class MemberInitActivity extends AppCompatActivity {
         }
     };
 
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void profileUpdate() {
         String name = ((EditText)findViewById(R.id.nameEditText)).getText().toString();
         String phoneNumber = ((EditText)findViewById(R.id.phoneNumberEditText)).getText().toString();
@@ -56,6 +61,7 @@ public class MemberInitActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 startToast("회원정보 등록을 성공하였습니다.");
+                                finish();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -77,6 +83,8 @@ public class MemberInitActivity extends AppCompatActivity {
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
 
 
 }
