@@ -50,7 +50,7 @@ public class MemberInitActivity extends AppCompatActivity {
 
             MemberInfo memberInfo = new MemberInfo(name, phoneNumber, birthDay, address);
 
-            if (user == null) {
+            if (user != null) {
                 db.collection("users").document(user.getUid()).set(memberInfo)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
