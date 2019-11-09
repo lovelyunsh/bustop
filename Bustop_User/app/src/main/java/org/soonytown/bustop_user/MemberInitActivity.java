@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MemberInitActivity extends AppCompatActivity {
@@ -54,13 +55,15 @@ public class MemberInitActivity extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             MemberInfo memberInfo = new MemberInfo(name, phoneNumber, birthDay, address);
+            DocumentReference test = db.collection("users").document(user.getUid());
 
             if (user != null) {
-                db.collection("users").document(user.getUid()).set(memberInfo)
+                test.set(memberInfo)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 startToast("회원정보 등록을 성공하였습니다.");
+                                insertDate(10);
                                 finish();
                             }
                         })
@@ -82,6 +85,14 @@ public class MemberInitActivity extends AppCompatActivity {
 
     private void startToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void insertDate(int value) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference test = db.collection("users").document(user.getUid());
+        test.update("check", value);
     }
 
 
