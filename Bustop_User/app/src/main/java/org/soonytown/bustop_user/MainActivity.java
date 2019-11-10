@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
@@ -129,12 +130,22 @@ public class MainActivity extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject(json);
                     String stationList = jsonObject.getString("STATION_LIST");
                     JSONArray jsonArray = new JSONArray(stationList);
-                    for (int i=0; i < 2; i++) {
+                    for (int i=0; i < jsonArray.length(); i++) {
+
                         JSONObject subJsonObject = jsonArray.getJSONObject(i);
-                        String busStation_Name = subJsonObject.getString("BUSSTOP_NAME");
+                        String busName = subJsonObject.getString("BUSSTOP_NAME");
+                        String busLatitude = subJsonObject.getString("LATITUDE");
+                        String busLongitude = subJsonObject.getString("LONGITUDE");
 
-                        busStation_check.setText(busStation_Name);
+                        double dou_busLatitude = Double.parseDouble(busLatitude);
+                        double dou_busLongitude = Double.parseDouble(busLongitude);
 
+                        if (Math.abs(dou_busLatitude - latitude) <= 0.001 && Math.abs(dou_busLongitude - longitude) <= 0.001)
+                        {
+                            Log.d(i + "@@@@@@@ Name Result", busName);
+                            Log.d(i + "@@@@@@@ Latitude Result", busLatitude);
+
+                        }
                     }
 
                 } catch (JSONException e) {
