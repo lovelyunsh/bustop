@@ -102,8 +102,8 @@ public class MemberInitActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference test = db.collection("users").document(user.getUid());
-        test.update("check", value);
+        DocumentReference reference = db.collection("users").document(user.getUid());
+        reference.update("check", value);
     }
 
 
