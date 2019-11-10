@@ -5,14 +5,14 @@ public class MemberInfo {
 
     private String name;
     private String phoneNumber;
-    private String birthDay;
     private String address;
+    private String welfareCard;
 
-    public MemberInfo(String name, String phoneNumber, String birthDay, String address) {
+    public MemberInfo(String name, String phoneNumber, String address, String welfareCard) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthDay = birthDay;
         this.address = address;
+        this.welfareCard = welfareCard;
     }
 
     public String getName() {
@@ -29,11 +29,11 @@ public class MemberInfo {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getBirthDay() {
-        return this.birthDay;
+    public String getWelfareCard() {
+        return this.welfareCard;
     }
-    public void setBirthDay(String birthDay) {
-        this.birthDay = birthDay;
+    public void setWelfareCard(String welfareCard) {
+        this.welfareCard = welfareCard;
     }
 
     public String getAddress() {

@@ -47,37 +47,48 @@ public class MemberInitActivity extends AppCompatActivity {
     private void profileUpdate() {
         String name = ((EditText)findViewById(R.id.nameEditText)).getText().toString();
         String phoneNumber = ((EditText)findViewById(R.id.phoneNumberEditText)).getText().toString();
-        String birthDay = ((EditText)findViewById(R.id.birthDayEditText)).getText().toString();
         String address = ((EditText)findViewById(R.id.addressEditText)).getText().toString();
+        String welfareCard = ((EditText)findViewById(R.id.welfareCardEditText)).getText().toString();
 
-        if(name.length() > 0 && phoneNumber.length() > 9 && birthDay.length() > 5 && address.length() > 0) {
+        if(name.length() > 0 && phoneNumber.length() > 9 && address.length() > 0) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            MemberInfo memberInfo = new MemberInfo(name, phoneNumber, birthDay, address);
-            DocumentReference test = db.collection("users").document(user.getUid());
+            MemberInfo memberInfo = new MemberInfo(name, phoneNumber, welfareCard, address);
+            DocumentReference reference = db.collection("users").document(user.getUid());
 
-            if (user != null) {
-                test.set(memberInfo)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                startToast("회원정보 등록을 성공하였습니다.");
-                                insertDate(10);
-                                finish();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                startToast("회원정보 등록에 실패하였습니다.");
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
-
+            if (user != null)
+            {
+                if (welfareCard.length() > 4) {
+                    reference.set(memberInfo)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    startToast("회원정보 등록을 성공하였습니다.(장애인)");
+                                    insertDate(1);
+                                    finish();
+                                }
+                            });
+                }
+                else {
+                    reference.set(memberInfo)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    startToast("회원정보 등록을 성공하였습니다.(비장애인)");
+                                    insertDate(0);
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    startToast("회원정보 등록에 실패하였습니다.");
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
+                }
             }
-
-
         } else {
             startToast("회원정보를 입력해 주세요.");
         }
