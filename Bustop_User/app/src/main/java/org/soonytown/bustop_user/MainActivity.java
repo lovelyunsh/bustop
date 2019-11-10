@@ -121,18 +121,25 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View arg0)
             {
+                Intent intent2 = new Intent(arg0.getContext(), nearStatActivity.class);
 
                 gpsTracker = new GpsTracker(MainActivity.this);
 
                 double latitude = gpsTracker.getLatitude();
                 double longitude = gpsTracker.getLongitude();
 
+
+                intent2.putExtra("latitude",latitude); //intent로 다른 액티비로 값 넘기기
+                intent2.putExtra("longitude",longitude);//intent로 다른 액티비로 값 넘기기
+
                 String address = getCurrentAddress(latitude, longitude);
                 //textview_address.setText(address); // *** 텍스트뷰 *** 보류
 
 //                Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
                 Toast.makeText(MainActivity.this, "현재위치 : "+address, Toast.LENGTH_LONG).show();
+                //startActivity(nearStatActivity.class);
                 setContentView(R.layout.activity_near_station);
+
             }
         });
     }
@@ -341,4 +348,5 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, c);
         startActivity(intent);
     }
+
 }
