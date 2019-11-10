@@ -29,7 +29,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -103,6 +108,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         final TextView textview_address = (TextView)findViewById(R.id.gpsTextview);
+        final TextView busStation_check = (TextView)findViewById(R.id.busTextView);
 
         Button ShowLocationButton = (Button) findViewById(R.id.gpsButton);
         ShowLocationButton.setOnClickListener(new View.OnClickListener()
@@ -117,6 +123,24 @@ public class MainActivity extends AppCompatActivity
                 double longitude = gpsTracker.getLongitude();
 
                 String address = getCurrentAddress(latitude, longitude);
+
+                try {
+                    String json = loadJSONFromAsset();
+                    JSONObject jsonObject = new JSONObject(json);
+                    String stationList = jsonObject.getString("STATION_LIST");
+                    JSONArray jsonArray = new JSONArray(stationList);
+                    for (int i=0; i < 2; i++) {
+                        JSONObject subJsonObject = jsonArray.getJSONObject(i);
+                        String busStation_Name = subJsonObject.getString("BUSSTOP_NAME");
+
+                        busStation_check.setText(busStation_Name);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 textview_address.setText(address);
 
                 Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
@@ -313,5 +337,29 @@ public class MainActivity extends AppCompatActivity
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         startActivity(intent);
+    }
+
+    private String loadJSONFromAsset() {
+        String json = null;
+        try {
+
+            InputStream is = getAssets().open("busStationLocation.json");
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }

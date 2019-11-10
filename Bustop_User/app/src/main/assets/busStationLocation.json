@@ -1,8 +1,4 @@
 {
-  "RESULT": {
-    "RESULT_MSG": "정상적으로 처리되었습니다.",
-    "RESULT_CODE": "SUCCESS"
-  },
   "STATION_LIST": [
     {
       "STATION_NUM": 1,
