@@ -2,6 +2,7 @@ package org.soonytown.bustop_user;
 
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,10 +10,13 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,60 +29,72 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private GpsTracker gpsTracker;
 
+    //tts
+    TextToSpeech tts;
+
+    //*****firebase 하차벨 용 변수들***********************************
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabase = database.getReference("led");
+    public String alarm_value;
+    //******************************************************************
+
+
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+
+        //*** tts
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.KOREAN);
+                }
+            }
+        });
+
+
         // 로그인 됐는지 여부 확인 -> 안되있으면 로그인 화면으로 넘어감
-        if(user == null)
-        {
+        if (user == null) {
             myStartActivity(SignUpActivity.class);
         } else {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference docRef = db.collection("users").document(user.getUid());
 
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
-            {
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task)
-                {
-                    if (task.isSuccessful())
-                    {
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
 
                         DocumentSnapshot document = task.getResult();
-                        if (document != null)
-                        {
+                        if (document != null) {
 
-                            if (document.exists())
-                            {
+                            if (document.exists()) {
 
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             } else {
@@ -95,12 +111,11 @@ public class MainActivity extends AppCompatActivity
             });
         }
 
-        findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
-        findViewById(R.id.gotoBusCheck).setOnClickListener(onClickListener);
+
+        //findViewById(R.id.logoutButton).setOnClickListener(onClickListener); //로그아웃 버튼 ***보류
 
         // GPS Function -> 나중에 class 나눌 예정
-        if (!checkLocationServicesStatus())
-        {
+        if (!checkLocationServicesStatus()) {
 
             showDialogForLocationServiceSetting();
         } else {
@@ -108,67 +123,53 @@ public class MainActivity extends AppCompatActivity
             checkRunTimePermission();
         }
 
-        final TextView textview_address = (TextView)findViewById(R.id.gpsTextview);
-        final TextView busStation_check = (TextView)findViewById(R.id.busTextView);
 
-        Button ShowLocationButton = (Button) findViewById(R.id.gpsButton);
-        ShowLocationButton.setOnClickListener(new View.OnClickListener()
-        {
+        //final TextView textview_address = (TextView)findViewById(R.id.gpsTextview); //gps 텍스트뷰 **보류
+
+        ImageButton ShowLocationButton = (ImageButton) findViewById(R.id.Btn_reserve);
+        ShowLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View arg0) {
+                Intent intent2 = new Intent(arg0.getContext(), nearStatActivity.class);
 
                 gpsTracker = new GpsTracker(MainActivity.this);
 
                 double latitude = gpsTracker.getLatitude();
                 double longitude = gpsTracker.getLongitude();
 
+
+                intent2.putExtra("latitude", latitude); //intent로 다른 액티비로 값 넘기기
+                intent2.putExtra("longitude", longitude);//intent로 다른 액티비로 값 넘기기
+
                 String address = getCurrentAddress(latitude, longitude);
+                //textview_address.setText(address); // *** 텍스트뷰 *** 보류
 
-                try {
-                    String json = loadJSONFromAsset();
-                    JSONObject jsonObject = new JSONObject(json);
-                    String stationList = jsonObject.getString("STATION_LIST");
-                    JSONArray jsonArray = new JSONArray(stationList);
-                    for (int i=0; i < jsonArray.length(); i++) {
+//                Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "현재위치 : " + address, Toast.LENGTH_LONG).show();
+                //startActivity(nearStatActivity.class);
+                setContentView(R.layout.activity_near_station);
 
-                        JSONObject subJsonObject = jsonArray.getJSONObject(i);
-                        String busName = subJsonObject.getString("BUSSTOP_NAME");
-                        String busLatitude = subJsonObject.getString("LATITUDE");
-                        String busLongitude = subJsonObject.getString("LONGITUDE");
-
-                        double dou_busLatitude = Double.parseDouble(busLatitude);
-                        double dou_busLongitude = Double.parseDouble(busLongitude);
-
-                        if (Math.abs(dou_busLatitude - latitude) <= 0.001 && Math.abs(dou_busLongitude - longitude) <= 0.001)
-                        {
-                            Log.d(i + "@@@@@@@ Name Result", busName);
-                            Log.d(i + "@@@@@@@ Latitude Result", busLatitude);
-
-                        }
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                textview_address.setText(address);
-
-                Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
             }
         });
     }
 
+
+    //***하차벨 버튼 기능********************************
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    } // 토스트 메시지 하차벨용
+
+    // *************************************************
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드.
      */
+
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,
-                                           @NonNull int[] grandResults)
-    {
+                                           @NonNull int[] grandResults) {
 
-        if ( permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
+        if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
             // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
             boolean check_result = true;
 
@@ -197,8 +198,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-
-    void checkRunTimePermission(){
+    void checkRunTimePermission() {
 
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
@@ -216,7 +216,6 @@ public class MainActivity extends AppCompatActivity
 
 
             // 3.  위치 값을 가져올 수 있음
-
 
 
         } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
@@ -242,7 +241,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public String getCurrentAddress( double latitude, double longitude) {
+    public String getCurrentAddress(double latitude, double longitude) {
 
         //지오코더... GPS를 주소로 변환
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -266,7 +265,6 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
         if (addresses == null || addresses.size() == 0) {
             Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
             return "주소 미발견";
@@ -274,11 +272,12 @@ public class MainActivity extends AppCompatActivity
         }
 
         Address address = addresses.get(0);
-        return address.getAddressLine(0).toString()+"\n";
+        return address.getAddressLine(0).toString() + "\n";
 
     }
 
     //여기부터는 GPS 활성화를 위한 메소드들
+
     private void showDialogForLocationServiceSetting() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -302,7 +301,6 @@ public class MainActivity extends AppCompatActivity
         });
         builder.create().show();
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -333,48 +331,120 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.logoutButton:
-                    FirebaseAuth.getInstance().signOut();
-                    myStartActivity(SignUpActivity.class);
-                    break;
-
-                case R.id.gotoBusCheck:
-                    myStartActivity(BusCheckActivity.class);
-                    break;
-            }
-        }
-    };
-
-
+//  로그아웃 기능 ***보류
+//    View.OnClickListener onClickListener = new View.OnClickListener() {
+//        public void onClick(View v) {
+//            switch (v.getId()) {
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
         startActivity(intent);
     }
 
-    private String loadJSONFromAsset() {
-        String json = null;
-        try {
 
-            InputStream is = getAssets().open("busStationLocation.json");
+    @SuppressWarnings("deprecation")
+    private void ttsUnder20(String text) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, map);
+    }
 
-            int size = is.available();
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void ttsGreater21(String text) {
+        String utteranceId = this.hashCode() + "";
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+    }
 
-            byte[] buffer = new byte[size];
+//                case R.id.logoutButton:
+//                    FirebaseAuth.getInstance().signOut();
+//                    myStartActivity(SignUpActivity.class);
+//                    break;
+//            }
+//        }
+//    };
+    public void onclick_setup(View view) {
 
-            is.read(buffer);
+        // mDatabase.child("led").setValue(1);
+        startToast("설정으로 넘어갑니다");
 
-            is.close();
+        startToast(alarm_value);
 
-            json = new String(buffer, "UTF-8");
+        String text = "설정";
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ttsGreater21(text);
+        } else {
+            ttsUnder20(text);
         }
-        return json;
+
+
+    }
+
+    public void onclick_alarm(View view) {
+
+        mDatabase.child("led").setValue(1);
+        startToast("하차 예약 되었습니다.");
+
+        startToast(alarm_value);
+
+        String text = "하차 예약";
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+
+
+        //http://stackoverflow.com/a/29777304
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ttsGreater21(text);
+        } else {
+            ttsUnder20(text);
+        }
+
+
+    }
+
+
+    public void onclick_reserved(View view) {
+
+        // mDatabase.child("led").setValue(1);
+        startToast("예약으로 넘어갑니다");
+
+        startToast(alarm_value);
+
+        String text = "예약";
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+
+
+        //http://stackoverflow.com/a/29777304
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ttsGreater21(text);
+        } else {
+            ttsUnder20(text);
+        }
+
+
+    }
+
+
+
+    public void onclick_busSearch(View view) {
+
+        // mDatabase.child("led").setValue(1);
+        startToast("주변 정류소 탐색합니다");
+
+        startToast(alarm_value);
+
+        String text = "주변 정류소";
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+
+
+        //http://stackoverflow.com/a/29777304
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ttsGreater21(text);
+        } else {
+            ttsUnder20(text);
+        }
+
+
     }
 }
