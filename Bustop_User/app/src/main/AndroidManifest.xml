@@ -21,17 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
         <activity android:name=".LoginActivity">
-
         </activity>
         <activity android:name=".SignUpActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
         <activity android:name=".PasswordResetActivity">
         </activity>
@@ -39,6 +32,11 @@
         </activity>
         <activity android:name=".BusCheckActivity">
         </activity>
+        <activity android:name=".RestSpaceActivity">
+        </activity>
+        <activity android:name=".nearStatActivity">
+        </activity>
+        <activity android:name=".practiceActivity">
+        </activity>
     </application>
-
 </manifest>

@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.loginButton:
-                    //Log.e("클릭", "클릭");
                     login();
                     break;
                 case R.id.gotoPasswordResetButton:
@@ -79,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }

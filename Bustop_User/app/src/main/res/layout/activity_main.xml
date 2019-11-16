@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -12,7 +11,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2">
+        android:layout_weight="0.1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="false"
+            android:src="@drawable/bustop_main" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.45">
 
         <ImageButton
             android:id="@+id/Btn_search"
@@ -21,8 +34,8 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="#FFFFFF"
-            android:padding="20dp"
             android:onClick="mOnclick"
+            android:padding="20dp"
             android:scaleType="centerInside"
             android:src="@drawable/bus_stop" />
 
@@ -43,7 +56,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2">
+        android:layout_weight="2.45">
 
 
         <ImageButton
@@ -53,8 +66,8 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="#FFFFFF"
-            android:padding="20dp"
             android:onClick="mOnclick"
+            android:padding="20dp"
             android:scaleType="centerInside"
             android:src="@drawable/alarm" />
 
@@ -65,8 +78,8 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="#FFFFFF"
-            android:padding="20dp"
             android:onClick="mOnclick"
+            android:padding="20dp"
             android:scaleType="centerInside"
             android:src="@drawable/settings" />
 
