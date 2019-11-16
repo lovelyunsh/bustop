@@ -63,7 +63,7 @@ public class BusCheckActivity extends AppCompatActivity
             StringBuilder urlBuilder = new StringBuilder("http://api.gwangju.go.kr/json/arriveInfo");
             urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=서비스키"); /*Service Key*/
             urlBuilder.append("&" + URLEncoder.encode("serviceKey","UTF-8") + "=" + URLEncoder.encode("sgTqgP7iagTROYX8%2BHee5c1KJ4MNJYXPyqkPEE7YQNCceqMeMOYWRhFpZ0RqHTHiU16ZEvJ%2FFjGZyWZXb38hdg%3D%3D", "UTF-8")); /**/
-            urlBuilder.append("&" + URLEncoder.encode("BUSSTOP_ID","UTF-8") + "=" + URLEncoder.encode("2873", "UTF-8"));
+            urlBuilder.append("&" + URLEncoder.encode("BUSSTOP_ID","UTF-8") + "=" + URLEncoder.encode("1744", "UTF-8"));
 
             String url_fin = urlBuilder.toString();
 
@@ -124,11 +124,14 @@ public class BusCheckActivity extends AppCompatActivity
     {
 
         private String bufferdata = "";
+        private String finalData = "";
+        private String totalData = "";
 
         @Override
         protected String doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
+
 
             try {
 
@@ -149,8 +152,22 @@ public class BusCheckActivity extends AppCompatActivity
                 JSONObject obj = new JSONObject(bufferdata);
                 JSONArray arr = obj.getJSONArray("BUSSTOP_LIST");
 
+                for (int i=0; i<arr.length(); i++)
+                {
+                    JSONObject subJsonObject = arr.getJSONObject(i);
+                    String busID = subJsonObject.getString("LINE_NAME");
+                    String curStopId = subJsonObject.getString("BUSSTOP_NAME");
+                    String remainMin = subJsonObject.getString("REMAIN_MIN");
 
-                return buffer.toString();
+                    finalData = "버스 이름 : " + busID + "\n"
+                                + "현재 정거장 : " + curStopId + "\n"
+                                + "남은 시간 : " + remainMin + "분\n";
+
+                    totalData = totalData + finalData;
+                }
+
+                return totalData;
+
 
             } catch (Exception e) {
                 e.printStackTrace();
