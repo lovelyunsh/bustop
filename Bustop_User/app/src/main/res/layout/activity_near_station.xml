@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="#FFFFFF"
-            android:onClick="onclick_station1"
+            android:onClick="mOnclick"
             android:padding="20dp"
             android:scaleType="centerInside"
             android:text="버스정류장" />
@@ -30,6 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:adjustViewBounds="true"
+            android:onClick="mOnclick"
             android:background="#FFFFFF"
             android:padding="20dp"
             android:scaleType="centerInside"
@@ -50,6 +51,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="#FFFFFF"
+            android:onClick="mOnclick"
             android:padding="20dp"
             android:scaleType="centerInside"
             android:text="버스정류장" />
@@ -62,6 +64,7 @@
             android:adjustViewBounds="true"
             android:background="#FFFFFF"
             android:padding="20dp"
+            android:onClick="mOnclick"
             android:scaleType="centerInside"
             android:text="다음페이지" />
 
