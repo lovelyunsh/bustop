@@ -35,7 +35,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
+        findViewById(R.id.gotoBusCheck).setOnClickListener(onClickListener);
 
         // GPS Function -> 나중에 class 나눌 예정
         if (!checkLocationServicesStatus())
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         ShowLocationButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View arg0)
+            public void onClick(View v)
             {
 
                 gpsTracker = new GpsTracker(MainActivity.this);
@@ -339,6 +339,10 @@ public class MainActivity extends AppCompatActivity
                 case R.id.logoutButton:
                     FirebaseAuth.getInstance().signOut();
                     myStartActivity(SignUpActivity.class);
+                    break;
+
+                case R.id.gotoBusCheck:
+                    myStartActivity(BusCheckActivity.class);
                     break;
             }
         }
