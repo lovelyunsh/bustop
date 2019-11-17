@@ -413,13 +413,63 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
             startActivity(intent2);
         }
     }
+
+    private void oneTouchDoubleTouchintent(final String Text1,final String Text2, Class c, String[] a){
+        final String SpeakText1 = Text1;//한번클릭시 나오는 음성
+        final String SpeakText2 = Text2;//더블클릭시 나오는 음성
+        //Class c는 엑티비티 이동
+        if (waitDouble == true) {
+            waitDouble = false;
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        sleep(DOUBLE_CLICK_TIME);
+                        if (waitDouble == false) {
+                            waitDouble = true;
+                            //single click event
+                            //SpeakText1 = "조선대 버스정류소";
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                ttsGreater21(SpeakText1);
+                            } else {
+                                ttsUnder20(SpeakText1);
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
+        } else {
+            //double click event
+            waitDouble = true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ttsGreater21(SpeakText2);
+            } else {
+                ttsUnder20(SpeakText2);
+            }
+            Intent intent2 = new Intent(getApplicationContext(), c);
+            intent2.putExtra("array",a);
+            startActivity(intent2);
+        }
+    }
+
     public void mOnclick(View v) {
         switch(v.getId()){
             case R.id.Btn_station1:
-                oneTouchDoubleTouch("한번터치","두번터치",practiceActivity.class);
+//                Intent intent2 = new Intent(this, reserveOxActivity.class);
+                Toast.makeText(nearStatActivity.this, ""+Alist.get(arrayIndex).getBusNum()+"번", Toast.LENGTH_LONG).show();
+//                oneTouchDoubleTouch("한번터치","두번터치",reserveOxActivity.class);
+                String[] a = new String[3];
+                a[0]= Alist.get(arrayIndex).getCurrentLoc();
+                a[1]= Alist.get(arrayIndex).getArriveTime();
+                a[2]= Alist.get(arrayIndex).getBusNum();
+                oneTouchDoubleTouchintent("한번터치","두번터치",reserveOxActivity.class,a);
                 break;
-            case R.id.Btn_station2:
 
+
+            case R.id.Btn_station2:
                 Toast.makeText(nearStatActivity.this, "lataaa : ", Toast.LENGTH_LONG).show();
                 Intent intent1 = new Intent(this, practiceActivity.class);
                 startActivity(intent1);
@@ -597,17 +647,9 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
                                         "\n현재정류소 : 정보없음" );
                             }
                             arraySize = arraySize-3;
-
                         }
-
                 }
-
-
-
-
                 break;
-
         }
     }
-
 }

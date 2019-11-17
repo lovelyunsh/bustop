@@ -13,7 +13,8 @@
         android:background="#FFFFFF"
         android:padding="20dp"
         android:scaleType="centerInside"
-        android:textSize="90dp"
+        android:onClick="mOnclick"
+        android:textSize="50dp"
         android:text="YES" />
 
     <Button
@@ -25,7 +26,8 @@
         android:background="#FFFFFF"
         android:padding="20dp"
         android:scaleType="centerInside"
-        android:textSize="90dp"
+        android:onClick="mOnclick"
+        android:textSize="50dp"
         android:text="NO" />
 
 </LinearLayout>

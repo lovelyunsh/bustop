@@ -25,22 +25,20 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".SignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".PasswordResetActivity">
-        </activity>
-        <activity android:name=".MemberInitActivity">
-        </activity>
-        <activity android:name=".nearStatActivity">
-        </activity>
-        <activity android:name=".practiceActivity">
-        </activity>
+        <activity android:name=".PasswordResetActivity"/>
+        <activity android:name=".MemberInitActivity"/>
+        <activity android:name=".nearStatActivity"/>
+        <activity android:name=".practiceActivity"/>
+
+        <activity android:name=".reserveOxActivity"/>
+
+
 
 
     </application>
