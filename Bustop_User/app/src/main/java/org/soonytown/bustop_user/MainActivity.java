@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userUid = user.getUid();
+
+        Log.e("####$$$$", userUid);
 
         //*** tts
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener()

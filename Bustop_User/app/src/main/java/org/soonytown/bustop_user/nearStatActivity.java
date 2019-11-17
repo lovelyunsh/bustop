@@ -55,8 +55,8 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
     private Button btnStation2;
     private Button btnStation3;
 
-    ArrayList<arriveBus> Alist;
-    ArrayList<NearBusInfo> nearBusInfoList;
+    ArrayList<arriveBus> Alist = new ArrayList<arriveBus>();
+    ArrayList<NearBusInfo> nearBusInfoList = new ArrayList<NearBusInfo>();
 
 
     @Override
@@ -71,13 +71,13 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
 
 //        arriveBus arr1 = new arriveBus("1","2","3");
 //        Alist.add(arr1);
-        Alist.add(new arriveBus("36","5","조선대학교"));
-        Alist.add(new arriveBus("54","6","대성여고"));
-        Alist.add(new arriveBus("01","12","살레시오고"));
-        Alist.add(new arriveBus("02","16","상무지구"));
-        Alist.add(new arriveBus("06","20","광천터미널"));
-        Alist.add(new arriveBus("17","26","시청"));
-        Alist.add(new arriveBus("27","23","구름다리"));
+//        Alist.add(new arriveBus("36","5","조선대학교"));
+//        Alist.add(new arriveBus("54","6","대성여고"));
+//        Alist.add(new arriveBus("01","12","살레시오고"));
+//        Alist.add(new arriveBus("02","16","상무지구"));
+//        Alist.add(new arriveBus("06","20","광천터미널"));
+//        Alist.add(new arriveBus("17","26","시청"));
+//        Alist.add(new arriveBus("27","23","구름다리"));
 
 
         btnStation1 = (Button)findViewById(R.id.Btn_station1);
@@ -88,40 +88,40 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
         arrayIndex=0;
         //*****************************************************************
 
-        if (arraySize>=3){
-            btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                    "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                    "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-            btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
-                    "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
-                    "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
-            btnStation3.setText(""+Alist.get(arrayIndex+2).getBusNum()+"번"+
-                    "\n도착시간 : " + Alist.get(arrayIndex+2).getArriveTime()+"분"+
-                    "\n현재정류소 : " + Alist.get(arrayIndex+2).getCurrentLoc());
-        }
-        else if(arraySize>=2){
-            btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                    "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                    "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-            btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
-                    "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
-                    "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
-            btnStation3.setText("정보없음"+
-                    "\n도착시간 : 정보없음"+
-                    "\n현재정류소 : 정보없음" );
-        }
-        else if(arraySize>=1){
-            btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                    "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                    "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-            btnStation2.setText("정보없음"+
-                    "\n도착시간 : 정보없음"+
-                    "\n현재정류소 : 정보없음" );
-            btnStation3.setText("정보없음"+
-                    "\n도착시간 : 정보없음"+
-                    "\n현재정류소 : 정보없음" );
-        }
-        //******************************************************************
+//        if (arraySize>=3){
+//            btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                    "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                    "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//            btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
+//                    "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
+//                    "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
+//            btnStation3.setText(""+Alist.get(arrayIndex+2).getBusNum()+"번"+
+//                    "\n도착시간 : " + Alist.get(arrayIndex+2).getArriveTime()+"분"+
+//                    "\n현재정류소 : " + Alist.get(arrayIndex+2).getCurrentLoc());
+//        }
+//        else if(arraySize>=2){
+//            btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                    "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                    "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//            btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
+//                    "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
+//                    "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
+//            btnStation3.setText("정보없음"+
+//                    "\n도착시간 : 정보없음"+
+//                    "\n현재정류소 : 정보없음" );
+//        }
+//        else if(arraySize>=1){
+//            btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                    "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                    "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//            btnStation2.setText("정보없음"+
+//                    "\n도착시간 : 정보없음"+
+//                    "\n현재정류소 : 정보없음" );
+//            btnStation3.setText("정보없음"+
+//                    "\n도착시간 : 정보없음"+
+//                    "\n현재정류소 : 정보없음" );
+//        }
+//        //******************************************************************
         arraySize = arraySize-3;
 
         tts = new TextToSpeech(this, this); //oncreate용 tts
@@ -175,6 +175,13 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+
+        int i = 0;
+        while(i < nearBusInfoList.size()) {
+            Log.e("@@@@#### : ", nearBusInfoList.get(i).getBusStopName());
+            Log.e("@@@@#### : ", nearBusInfoList.get(i).getNextBusStop());
+            i++;
         }
 
     }
@@ -515,41 +522,41 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
                             } else {
                                 ttsUnder20(SpeakText1);
                             }
-                                            arraySize = Alist.size();
-                                            arrayIndex=0;
-                            if (arraySize>=3){
-                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-                                btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
-                                btnStation3.setText(""+Alist.get(arrayIndex+2).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex+2).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex+2).getCurrentLoc());
-                            }
-                            else if(arraySize>=2){
-                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-                                btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
-                                btnStation3.setText("정보없음"+
-                                        "\n도착시간 : 정보없음"+
-                                        "\n현재정류소 : 정보없음" );
-                            }
-                            else if(arraySize>=1){
-                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-                                btnStation2.setText("정보없음"+
-                                        "\n도착시간 : 정보없음"+
-                                        "\n현재정류소 : 정보없음" );
-                                btnStation3.setText("정보없음"+
-                                        "\n도착시간 : 정보없음"+
-                                        "\n현재정류소 : 정보없음" );
-                            }
+                            arraySize = Alist.size();
+                            arrayIndex=0;
+//                            if (arraySize>=3){
+//                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//                                btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
+//                                btnStation3.setText(""+Alist.get(arrayIndex+2).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex+2).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex+2).getCurrentLoc());
+//                            }
+//                            else if(arraySize>=2){
+//                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//                                btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
+//                                btnStation3.setText("정보없음"+
+//                                        "\n도착시간 : 정보없음"+
+//                                        "\n현재정류소 : 정보없음" );
+//                            }
+//                            else if(arraySize>=1){
+//                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//                                btnStation2.setText("정보없음"+
+//                                        "\n도착시간 : 정보없음"+
+//                                        "\n현재정류소 : 정보없음" );
+//                                btnStation3.setText("정보없음"+
+//                                        "\n도착시간 : 정보없음"+
+//                                        "\n현재정류소 : 정보없음" );
+//                            }
                             arraySize = arraySize-3;
 
                         }
@@ -561,75 +568,75 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
 
                 //*
                 else{ //3개 이상 버스 정류소 정보가있을때
-                        if (waitDouble == true) {
-                            waitDouble = false;
-                            Thread thread = new Thread() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        sleep(DOUBLE_CLICK_TIME);
-                                        if (waitDouble == false) {
-                                            waitDouble = true;
-                                            //single click event
-                                            String SpeakText1 = "다음페이지"; //1번 터치시
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                                ttsGreater21(SpeakText1);
-                                            } else {
-                                                ttsUnder20(SpeakText1);
-                                            }
+                    if (waitDouble == true) {
+                        waitDouble = false;
+                        Thread thread = new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    sleep(DOUBLE_CLICK_TIME);
+                                    if (waitDouble == false) {
+                                        waitDouble = true;
+                                        //single click event
+                                        String SpeakText1 = "다음페이지"; //1번 터치시
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                            ttsGreater21(SpeakText1);
+                                        } else {
+                                            ttsUnder20(SpeakText1);
                                         }
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
                                     }
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
                                 }
-                            };
-                            thread.start();
+                            }
+                        };
+                        thread.start();
+                    } else {
+                        //double click event
+                        waitDouble = true;
+                        String SpeakText2 = "다음페이지 선택완료";
+                        arrayIndex=arrayIndex+3;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            ttsGreater21(SpeakText2);
                         } else {
-                            //double click event
-                            waitDouble = true;
-                            String SpeakText2 = "다음페이지 선택완료";
-                            arrayIndex=arrayIndex+3;
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                ttsGreater21(SpeakText2);
-                            } else {
-                                ttsUnder20(SpeakText2);
-                            }
-
-                            if (arraySize>=3){
-                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-                                btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
-                                btnStation3.setText(""+Alist.get(arrayIndex+2).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex+2).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex+2).getCurrentLoc());
-                            }
-                            else if(arraySize>=2){
-                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-                                btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
-                                btnStation3.setText("정보없음"+
-                                        "\n도착시간 : 정보없음"+
-                                        "\n현재정류소 : 정보없음" );
-                            }
-                            else if(arraySize>=1){
-                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
-                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
-                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
-                                btnStation2.setText("정보없음"+
-                                        "\n도착시간 : 정보없음"+
-                                        "\n현재정류소 : 정보없음" );
-                                btnStation3.setText("정보없음"+
-                                        "\n도착시간 : 정보없음"+
-                                        "\n현재정류소 : 정보없음" );
-                            }
-                            arraySize = arraySize-3;
+                            ttsUnder20(SpeakText2);
                         }
+
+//                            if (arraySize>=3){
+//                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//                                btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
+//                                btnStation3.setText(""+Alist.get(arrayIndex+2).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex+2).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex+2).getCurrentLoc());
+//                            }
+//                            else if(arraySize>=2){
+//                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//                                btnStation2.setText(""+Alist.get(arrayIndex+1).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex+1).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex+1).getCurrentLoc());
+//                                btnStation3.setText("정보없음"+
+//                                        "\n도착시간 : 정보없음"+
+//                                        "\n현재정류소 : 정보없음" );
+//                            }
+//                            else if(arraySize>=1){
+//                                btnStation1.setText(""+Alist.get(arrayIndex).getBusNum()+"번"+
+//                                        "\n도착시간 : " + Alist.get(arrayIndex).getArriveTime()+"분"+
+//                                        "\n현재정류소 : " + Alist.get(arrayIndex).getCurrentLoc());
+//                                btnStation2.setText("정보없음"+
+//                                        "\n도착시간 : 정보없음"+
+//                                        "\n현재정류소 : 정보없음" );
+//                                btnStation3.setText("정보없음"+
+//                                        "\n도착시간 : 정보없음"+
+//                                        "\n현재정류소 : 정보없음" );
+//                            }
+                        arraySize = arraySize-3;
+                    }
                 }
                 break;
 
