@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     ttsUnder20(text);
                 }
                 break;
+
             case R.id.Btn_settings: //설정
                 text = "설정";
                 startToast(text);
@@ -158,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 myStartActivity(RestSpaceActivity.class);
                 break;
-
         }
     }
 

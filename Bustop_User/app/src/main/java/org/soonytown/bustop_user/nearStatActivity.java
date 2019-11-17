@@ -23,7 +23,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +56,7 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
     private Button btnStation3;
 
     ArrayList<arriveBus> Alist;
+    ArrayList<NearBusInfo> nearBusInfoList;
 
 
     @Override
@@ -121,7 +127,10 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
         tts = new TextToSpeech(this, this); //oncreate용 tts
         speakOut();                                           //oncreate용 tts
 
-        // GPS Function -> 나중에 class 나눌 예정
+
+
+
+        // ************************ GPS Function -> 나중에 class 나눌 예정
         if (!checkLocationServicesStatus()) {
 
             showDialogForLocationServiceSetting();
@@ -130,22 +139,45 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
             checkRunTimePermission();
         }
 
-
-
-
         gpsTracker = new GpsTracker(nearStatActivity.this);
 
         latitude = gpsTracker.getLatitude();
         longitude = gpsTracker.getLongitude();
         address = getCurrentAddress(latitude, longitude);
         //textview_address.setText(address); // *** 텍스트뷰 *** 보류
-//                Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
         Toast.makeText(nearStatActivity.this, "현재위치 : " + address, Toast.LENGTH_LONG).show();
 
+        try {
+            String stationJson = loadJSONFromAsset();
+            JSONObject stationJsonObject = new JSONObject(stationJson);
+            String stationList = stationJsonObject.getString("STATION_LIST");
+            JSONArray stationJsonArray = new JSONArray(stationList);
 
+            for (int i=0; i < stationJsonArray.length(); i++) {
+                JSONObject subJsonObject = stationJsonArray.getJSONObject(i);
+                String busStopId = subJsonObject.getString("BUSSTOP_ID");
+                String busStopName = subJsonObject.getString("BUSSTOP_NAME");
+                String nextBusStop = subJsonObject.getString("NEXT_BUSSTOP");
+
+                String busLongitude = subJsonObject.getString("LONGITUDE");
+                String busLatitude = subJsonObject.getString("LATITUDE");
+
+
+                double dou_busLongitude = Double.parseDouble(busLongitude);
+                double dou_busLatitude = Double.parseDouble(busLatitude);
+
+                if (Math.abs(dou_busLatitude - latitude) <= 0.001 && Math.abs(dou_busLongitude - longitude) <= 0.001)
+                {
+                    nearBusInfoList.add(new NearBusInfo(busStopId, busStopName, nextBusStop));
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
-
 
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드.
@@ -597,17 +629,35 @@ public class nearStatActivity extends AppCompatActivity implements TextToSpeech.
                                         "\n현재정류소 : 정보없음" );
                             }
                             arraySize = arraySize-3;
-
                         }
-
                 }
-
-
-
-
                 break;
 
         }
+    }
+
+    private String loadJSONFromAsset() {
+        String json = null;
+        try {
+
+            InputStream is = getAssets().open("busStationLocation.json");
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
 }

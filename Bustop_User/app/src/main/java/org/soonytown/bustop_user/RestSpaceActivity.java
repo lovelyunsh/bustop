@@ -22,15 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,15 +39,6 @@ public class RestSpaceActivity extends AppCompatActivity
     private static final String TAG = "RestSpaceActivity";
     private GpsTracker gpsTracker;
 
-    //tts
-    private TextToSpeech tts;
-
-    //*****firebase 하차벨 용 변수들***********************************
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabase = database.getReference("led");
-    public String alarm_value;
-    //*****************************************************************
-
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -65,57 +48,6 @@ public class RestSpaceActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_space);
-
-        //*** tts
-        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.KOREAN);
-                }
-            }
-        });
-
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        // 로그인 됐는지 여부 확인 -> 안되있으면 로그인 화면으로 넘어감
-        if(user == null)
-        {
-            myStartActivity(SignUpActivity.class);
-        } else {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference docRef = db.collection("users").document(user.getUid());
-
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
-            {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task)
-                {
-                    if (task.isSuccessful())
-                    {
-
-                        DocumentSnapshot document = task.getResult();
-                        if (document != null)
-                        {
-
-                            if (document.exists())
-                            {
-
-                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            } else {
-
-                                Log.d(TAG, "No such document");
-                                myStartActivity(MemberInitActivity.class);
-                            }
-                        }
-
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                }
-            });
-        }
 
         findViewById(R.id.logoutButton).setOnClickListener(onClickListener);
         findViewById(R.id.gotoBusCheck).setOnClickListener(onClickListener);

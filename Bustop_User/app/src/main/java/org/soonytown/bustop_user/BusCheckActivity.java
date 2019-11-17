@@ -27,7 +27,7 @@ import java.net.URLEncoder;
 
 public class BusCheckActivity extends AppCompatActivity
 {
-    protected static String key = "sgTqgP7iagTROYX8%2BHee5c1KJ4MNJYXPyqkPEE7YQNCceqMeMOYWRhFpZ0RqHTHiU16ZEvJ%2FFjGZyWZXb38hdg%3D%3D";
+    private static String key = "sgTqgP7iagTROYX8%2BHee5c1KJ4MNJYXPyqkPEE7YQNCceqMeMOYWRhFpZ0RqHTHiU16ZEvJ%2FFjGZyWZXb38hdg%3D%3D";
     private TextView tvData;
 
     @Override
@@ -62,62 +62,17 @@ public class BusCheckActivity extends AppCompatActivity
         {
             StringBuilder urlBuilder = new StringBuilder("http://api.gwangju.go.kr/json/arriveInfo");
             urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=서비스키"); /*Service Key*/
-            urlBuilder.append("&" + URLEncoder.encode("serviceKey","UTF-8") + "=" + URLEncoder.encode("sgTqgP7iagTROYX8%2BHee5c1KJ4MNJYXPyqkPEE7YQNCceqMeMOYWRhFpZ0RqHTHiU16ZEvJ%2FFjGZyWZXb38hdg%3D%3D", "UTF-8")); /**/
+            urlBuilder.append("&" + URLEncoder.encode("serviceKey","UTF-8") + "=" + key); /**/
             urlBuilder.append("&" + URLEncoder.encode("BUSSTOP_ID","UTF-8") + "=" + URLEncoder.encode("1744", "UTF-8"));
 
             String url_fin = urlBuilder.toString();
 
             new JSONTask().execute(url_fin);
 
-
-
-//
-//            String line = null;
-//            StringBuffer buffer = new StringBuffer();
-//
-//            while((line = rd.readLine()) != null)
-//            {
-//                buffer.append(line);
-//            }
-//            rd.close();
-//            conn.disconnect();
-//
-//            String receiveMsg = buffer.toString();
-//
-//            JSONObject obj = new JSONObject(url);
-//
-//            String stationList = task.getString("BUSSTOP_LIST");
-//            JSONArray jsonArray = new JSONArray(stationList);
-//
-//            for (int i=0; i < jsonArray.length(); i++)
-//            {
-//
-//                JSONObject subJsonObject = jsonArray.getJSONObject(i);
-//                String busID = subJsonObject.getString("BUS_ID");
-//                String curStopId = subJsonObject.getString("CURR_STOP_ID");
-//                String remainMin = subJsonObject.getString("REMAIN_MIN");
-//
-//                webpage_src.append("[" + busID + "]\n");
-//                webpage_src.append(curStopId + "\n");
-//                webpage_src.append(remainMin + "\n");
-//                webpage_src.append("\n");
-//            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-    }
-
-    private void startToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-
-    private void myStartActivity(Class c) {
-        Intent intent = new Intent(this, c);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 
     public class JSONTask extends AsyncTask<String, String, String>
@@ -191,5 +146,16 @@ public class BusCheckActivity extends AppCompatActivity
             super.onPostExecute(result);
             tvData.setText(result);
         }
+    }
+
+    private void startToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void myStartActivity(Class c) {
+        Intent intent = new Intent(this, c);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
